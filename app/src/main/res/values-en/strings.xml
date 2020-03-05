@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Market</string>
+    <string name="email_telaLogin">Email</string>
+    <string name="senha_telaLogin">Password</string>
+</resources>
