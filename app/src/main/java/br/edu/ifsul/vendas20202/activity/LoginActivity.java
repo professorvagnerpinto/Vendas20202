@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,31 +22,38 @@ import br.edu.ifsul.vendas20202.R;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "loginActivity";
-    private FirebaseAuth mAuth;
     private EditText etEmail, etSenha;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+
+        //mapear componentes da view
         etEmail = findViewById(R.id.etEmail_Login);
         etSenha = findViewById(R.id.etSenha_Login);
-        findViewById(R.id.btSignIn_Login).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        signIn(etEmail.getText().toString(), etSenha.getText().toString());
-                    }
-                }
-        );
+        Button btSignIn = findViewById(R.id.btSignIn_Login);
+        TextView tvEsqueceuSenha = findViewById(R.id.tvEsqueceuSenha);
+
+        //tratar eventos da view
+        btSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //lê os dados da view
+                signIn(etEmail.getText().toString(), etSenha.getText().toString());
+            }
+        });
+
 
     }
 
-    private void signIn(String email, String password){
+    private void signIn(String email, String password) {
+        Toast.makeText(this, "Sing in", Toast.LENGTH_SHORT).show();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -53,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(LoginActivity.this, "Logou", Toast.LENGTH_SHORT).show();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -64,5 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 }
